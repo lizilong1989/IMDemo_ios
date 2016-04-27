@@ -28,6 +28,7 @@
     UIImageView *_headerImageView;
     
     //操作按钮显示
+    //Operation button
     UIView *_actionView;
     UIButton *_silenceButton;
     UILabel *_silenceLabel;

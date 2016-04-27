@@ -131,6 +131,7 @@ static ChatDemoHelper *helper = nil;
 #pragma mark - EMClientDelegate
 
 // 网络状态变化回调
+// Connection to the server status changes will receive the callback
 - (void)didConnectionStateChanged:(EMConnectionState)connectionState
 {
     [self.mainVC networkChanged:connectionState];
@@ -173,18 +174,6 @@ static ChatDemoHelper *helper = nil;
     [alertView show];
     [[NSNotificationCenter defaultCenter] postNotificationName:KNOTIFICATION_LOGINCHANGE object:@NO];
 }
-
-//- (void)didServersChanged
-//{
-//    [self _clearHelper];
-//    [[NSNotificationCenter defaultCenter] postNotificationName:KNOTIFICATION_LOGINCHANGE object:@NO];
-//}
-//
-//- (void)didAppkeyChanged
-//{
-//    [self _clearHelper];
-//    [[NSNotificationCenter defaultCenter] postNotificationName:KNOTIFICATION_LOGINCHANGE object:@NO];
-//}
 
 #pragma mark - EMChatManagerDelegate
 
@@ -442,8 +431,9 @@ static ChatDemoHelper *helper = nil;
         BOOL isAppActivity = [[UIApplication sharedApplication] applicationState] == UIApplicationStateActive;
         if (!isAppActivity) {
             //发送本地推送
+            //Send localNotification
             UILocalNotification *notification = [[UILocalNotification alloc] init];
-            notification.fireDate = [NSDate date]; //触发通知的时间
+            notification.fireDate = [NSDate date]; //触发通知的时间/The time for send localNotification
             notification.alertBody = [NSString stringWithFormat:NSLocalizedString(@"friend.somebodyAddWithName", @"%@ add you as a friend"), aUsername];
             notification.alertAction = NSLocalizedString(@"open", @"Open");
             notification.timeZone = [NSTimeZone defaultTimeZone];

@@ -14,7 +14,7 @@
 
 #import "EMOptions+PrivateDeploy.h"
 
-#warning 环信内部测试用，开发者不需要使用此类
+#warning 环信内部测试用，开发者不需要使用此类/For Hyphenate inner test, the developer don't use this
 
 @implementation AppDelegate (EaseMobDebug)
 

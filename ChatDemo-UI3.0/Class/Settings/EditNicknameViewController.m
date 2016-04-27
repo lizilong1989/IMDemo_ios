@@ -115,6 +115,7 @@
     if(_nickTextField.text.length > 0)
     {
         //设置推送设置
+        //set nickname for apns
         [[EMClient sharedClient] setApnsNickname:_nickTextField.text];
         [self.navigationController popViewControllerAnimated:YES];
     } else {

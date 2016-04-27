@@ -54,7 +54,7 @@
     
     self.title = NSLocalizedString(@"title.group", @"Group");
     
-#warning 把self注册为SDK的delegate
+#warning 把self注册为SDK的delegate/Regist sdk delegate
     [[EMClient sharedClient].groupManager removeDelegate:self];
     [[EMClient sharedClient].groupManager addDelegate:self delegateQueue:nil];
     

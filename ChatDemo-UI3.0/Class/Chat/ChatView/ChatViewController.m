@@ -59,6 +59,7 @@
     if (self.conversation.type == EMConversationTypeChatRoom)
     {
         //退出聊天室，删除会话
+        //leave the chatrrom,delete the conversation
         NSString *chatter = [self.conversation.conversationId copy];
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
             EMError *error = nil;
@@ -97,13 +98,14 @@
     [self.navigationItem setLeftBarButtonItem:backItem];
     
     //单聊
+    //Single Chat
     if (self.conversation.type == EMConversationTypeChat) {
         UIButton *clearButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 44, 44)];
         [clearButton setImage:[UIImage imageNamed:@"delete"] forState:UIControlStateNormal];
         [clearButton addTarget:self action:@selector(deleteAllMessages:) forControlEvents:UIControlEventTouchUpInside];
         self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:clearButton];
     }
-    else{//群聊
+    else{//群聊/Group Chat
         UIButton *detailButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 60, 44)];
         [detailButton setImage:[UIImage imageNamed:@"group_detail"] forState:UIControlStateNormal];
         [detailButton addTarget:self action:@selector(showGroupDetailAction) forControlEvents:UIControlEventTouchUpInside];
@@ -251,6 +253,7 @@
     
     if (self.deleteConversationIfNull) {
         //判断当前会话是否为空，若符合则删除该会话
+        //If there is no message in the conversation,and delete the conversation
         EMMessage *message = [self.conversation latestMessage];
         if (message == nil) {
             [[EMClient sharedClient].chatManager deleteConversation:self.conversation.conversationId deleteMessages:NO];

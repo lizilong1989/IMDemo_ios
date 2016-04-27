@@ -80,8 +80,10 @@
 - (IBAction)doRegister:(id)sender {
     if (![self isEmpty]) {
         //隐藏键盘
+        //Hide keyborad
         [self.view endEditing:YES];
         //判断是否是中文，但不支持中英文混编
+        //To determine whether it is Chinese, but does not support in English and Chinese mixed
         if ([self.usernameTextField.text isChinese]) {
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"login.nameNotSupportZh", @"Name does not support Chinese")
                                   message:nil
@@ -126,10 +128,12 @@
 }
 
 //点击登陆后的操作
+//Click the button for login
 - (void)loginWithUsername:(NSString *)username password:(NSString *)password
 {
     [self showHudInView:self.view hint:NSLocalizedString(@"login.ongoing", @"Is Login...")];
     //异步登陆账号
+    //Asynchronous to login
     __weak typeof(self) weakself = self;
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         EMError *error = [[EMClient sharedClient] loginWithUsername:username password:password];
@@ -137,9 +141,11 @@
             [weakself hideHud];
             if (!error) {
                 //设置是否自动登录
+                //Set whether autologin or not
                 [[EMClient sharedClient].options setIsAutoLogin:YES];
                 
                 //获取数据库中数据
+                //Get data from database
                 [MBProgressHUD showHUDAddedTo:weakself.view animated:YES];
                 dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
                     [[EMClient sharedClient] dataMigrationTo3];
@@ -149,9 +155,11 @@
                         [[ChatDemoHelper shareHelper] asyncPushOptions];
                         [MBProgressHUD hideAllHUDsForView:weakself.view animated:YES];
                         //发送自动登陆状态通知
+                        //Send notification for state of login
                         [[NSNotificationCenter defaultCenter] postNotificationName:KNOTIFICATION_LOGINCHANGE object:@([[EMClient sharedClient] isLoggedIn])];
                         
                         //保存最近一次登录用户名
+                        //Save the username for last login
                         [weakself saveLastLoginUsername];
                     });
                 });
@@ -186,22 +194,27 @@
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
     if ([alertView cancelButtonIndex] != buttonIndex) {
         //获取文本输入框
+        //Get text from textfield
         UITextField *nameTextField = [alertView textFieldAtIndex:0];
         if(nameTextField.text.length > 0)
         {
             //设置推送设置
+            //set nickname for apns
             [[EMClient sharedClient] setApnsNickname:nameTextField.text];
         }
     }
     //登陆
+    //login
     [self loginWithUsername:_usernameTextField.text password:_passwordTextField.text];
 }
 
 //登陆账号
+//Login with username
 - (IBAction)doLogin:(id)sender {
     if (![self isEmpty]) {
         [self.view endEditing:YES];
         //支持是否为中文
+        //does not support Chinese
         if ([self.usernameTextField.text isChinese]) {
             UIAlertView *alert = [[UIAlertView alloc]
                                   initWithTitle:NSLocalizedString(@"login.nameNotSupportZh", @"Name does not support Chinese")
@@ -214,18 +227,6 @@
             
             return;
         }
-        /*
-#if !TARGET_IPHONE_SIMULATOR
-        //弹出提示
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:NSLocalizedString(@"login.inputApnsNickname", @"Please enter nickname for apns") delegate:self cancelButtonTitle:NSLocalizedString(@"cancel", @"Cancel") otherButtonTitles:NSLocalizedString(@"ok", @"OK"), nil];
-        [alert setAlertViewStyle:UIAlertViewStylePlainTextInput];
-        UITextField *nameTextField = [alert textFieldAtIndex:0];
-        nameTextField.text = self.usernameTextField.text;
-        [alert show];
-#elif TARGET_IPHONE_SIMULATOR
-        [self loginWithUsername:_usernameTextField.text password:_passwordTextField.text];
-#endif
-         */
         [self loginWithUsername:_usernameTextField.text password:_passwordTextField.text];
     }
 }
@@ -238,6 +239,7 @@
 }
 
 //判断账号和密码是否为空
+//If empty with username or password
 - (BOOL)isEmpty{
     BOOL ret = NO;
     NSString *username = _usernameTextField.text;

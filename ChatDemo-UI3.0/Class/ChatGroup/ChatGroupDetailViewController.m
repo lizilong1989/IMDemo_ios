@@ -594,6 +594,7 @@
 }
 
 //清空聊天记录
+//Clear history of chat
 - (void)clearAction
 {
     __weak typeof(self) weakSelf = self;
@@ -609,6 +610,7 @@
 }
 
 //解散群组
+//Dimiss the group
 - (void)dissolveAction
 {
     __weak typeof(self) weakSelf = self;
@@ -629,6 +631,7 @@
 }
 
 //设置群组
+//Set group
 - (void)configureAction {
     // todo
     __weak typeof(self) weakSelf = self;
@@ -638,6 +641,7 @@
 }
 
 //退出群组
+//Exit group
 - (void)exitAction
 {
     __weak typeof(self) weakSelf = self;

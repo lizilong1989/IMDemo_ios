@@ -182,6 +182,7 @@
 {
     NSMutableArray * existTitles = [NSMutableArray array];
     //section数组为空的title过滤掉，不显示
+    //if the array is nil,do not show
     for (int i = 0; i < [self.sectionTitles count]; i++) {
         if ([[self.dataSource objectAtIndex:i] count] > 0) {
             [existTitles addObject:[self.sectionTitles objectAtIndex:i]];
@@ -209,6 +210,7 @@
 
 #pragma mark - slimeRefresh delegate
 //刷新列表
+//refresh list
 - (void)slimeRefreshStartRefresh:(SRRefreshView *)refreshView
 {
     [self reloadDataSource];
@@ -220,12 +222,14 @@
 - (NSMutableArray *)sortDataArray:(NSArray *)dataArray
 {
     //建立索引的核心
+    //Build index
     UILocalizedIndexedCollation *indexCollation = [UILocalizedIndexedCollation currentCollation];
     
     [self.sectionTitles removeAllObjects];
     [self.sectionTitles addObjectsFromArray:[indexCollation sectionTitles]];
     
     //返回27，是a－z和＃
+    //return 27, a-z and #
     NSInteger highSection = [self.sectionTitles count];
     //tableView 会被分成27个section
     NSMutableArray *sortedArray = [NSMutableArray arrayWithCapacity:highSection];
@@ -235,6 +239,7 @@
     }
     
     //名字分section
+    //Grouped by name
     for (NSString *username in dataArray) {
         //getUserName是实现中文拼音检索的核心，见NameIndex类
         NSString *firstLetter = [EaseChineseToPinyin pinyinFromChineseString:username];
@@ -245,6 +250,7 @@
     }
     
     //每个section内的数组排序
+    //Every section sort by Letters
     for (int i = 0; i < [sortedArray count]; i++) {
         NSArray *array = [[sortedArray objectAtIndex:i] sortedArrayUsingComparator:^NSComparisonResult(NSString *obj1, NSString *obj2) {
             NSString *firstLetter1 = [EaseChineseToPinyin pinyinFromChineseString:obj1];

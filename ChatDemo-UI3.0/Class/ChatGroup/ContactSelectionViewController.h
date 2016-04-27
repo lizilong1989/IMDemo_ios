@@ -15,6 +15,7 @@
 @interface ContactSelectionViewController : EMChooseViewController
 
 //已有选中的成员username，在该页面，这些成员不能被取消选择
+//Transfer the selected member,and the members cannot be selected in this view
 - (instancetype)initWithBlockSelectedUsernames:(NSArray *)blockUsernames;
 
 @end

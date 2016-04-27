@@ -193,8 +193,8 @@
     [_textField resignFirstResponder];
     if(_textField.text.length > 0)
     {
-#warning 由用户体系的用户，需要添加方法在已有的用户体系中查询符合填写内容的用户
-#warning 以下代码为测试代码，默认用户体系中有一个符合要求的同名用户
+#warning 由用户体系的用户，需要添加方法在已有的用户体系中查询符合填写内容的用户/By the user system,users need to add query method to fill the contents of the user with the user in the system
+#warning 以下代码为测试代码，默认用户体系中有一个符合要求的同名用户/The following code for test code, the default user system has a user with the same name in the system
         NSString *loginUsername = [[EMClient sharedClient] currentUsername];
         if ([_textField.text isEqualToString:loginUsername]) {
             UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"prompt", @"Prompt") message:NSLocalizedString(@"friend.notAddSelf", @"can't add yourself as a friend") delegate:nil cancelButtonTitle:NSLocalizedString(@"ok", @"OK") otherButtonTitles:nil, nil];
@@ -204,6 +204,7 @@
         }
         
         //判断是否已发来申请
+        //To determine whether the application has been received
         NSArray *applyArray = [[ApplyViewController shareController] dataSource];
         if (applyArray && [applyArray count] > 0) {
             for (ApplyEntity *entity in applyArray) {

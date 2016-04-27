@@ -20,6 +20,7 @@
 #import "ContactListViewController.h"
 #import "ChatDemoHelper.h"
 //两次提示的默认间隔
+//The interval for twice notify
 static const CGFloat kDefaultPlaySoundInterval = 3.0;
 static NSString *kMessageType = @"MessageType";
 static NSString *kConversationChatter = @"ConversationChatter";
@@ -58,13 +59,12 @@ static NSString *kGroupName = @"GroupName";
     [super viewDidLoad];
     
     //if 使tabBarController中管理的viewControllers都符合 UIRectEdgeNone
+    //if make the tabBarController for the viewControllers,accord with UIRectEdgeNone
     if ([UIDevice currentDevice].systemVersion.floatValue >= 7) {
         self.edgesForExtendedLayout = UIRectEdgeNone;
     }
     self.title = NSLocalizedString(@"title.conversation", @"Conversations");
     
-    //获取未读消息数，此时并没有把self注册为SDK的delegate，读取出的未读数是上次退出程序时的
-//    [self didUnreadMessagesCountChanged];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(setupUntreatedApplyCount) name:@"setupUntreatedApplyCount" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(setupUnreadMessageCount) name:@"setupUnreadMessageCount" object:nil];
     
@@ -166,6 +166,7 @@ static NSString *kGroupName = @"GroupName";
 }
 
 // 统计未读消息数
+// Unread Message Count
 -(void)setupUnreadMessageCount
 {
     NSArray *conversations = [[EMClient sharedClient].chatManager getAllConversations];
@@ -208,16 +209,20 @@ static NSString *kGroupName = @"GroupName";
                                    timeIntervalSinceDate:self.lastPlaySoundDate];
     if (timeInterval < kDefaultPlaySoundInterval) {
         //如果距离上次响铃和震动时间太短, 则跳过响铃
+        //If the interval was ringing and time is too short,skip ringing
         NSLog(@"skip ringing & vibration %@, %@", [NSDate date], self.lastPlaySoundDate);
         return;
     }
     
     //保存最后一次响铃时间
+    //Save the time when last ringing
     self.lastPlaySoundDate = [NSDate date];
     
     // 收到消息时，播放音频
+    // When receive message,play sound
     [[EMCDDeviceManager sharedInstance] playNewMessageSound];
     // 收到消息时，震动
+    // When receive message,play vibration
     [[EMCDDeviceManager sharedInstance] playVibration];
 }
 
@@ -225,8 +230,9 @@ static NSString *kGroupName = @"GroupName";
 {
     EMPushOptions *options = [[EMClient sharedClient] pushOptions];
     //发送本地推送
+    //Send local notifycation
     UILocalNotification *notification = [[UILocalNotification alloc] init];
-    notification.fireDate = [NSDate date]; //触发通知的时间
+    notification.fireDate = [NSDate date]; //触发通知的时间/the time for localNotification
     
     if (options.displayStyle == EMPushDisplayStyleMessageSummary) {
         EMMessageBody *messageBody = message.body;
@@ -288,7 +294,7 @@ static NSString *kGroupName = @"GroupName";
         notification.alertBody = NSLocalizedString(@"receiveMessage", @"you have a new message");
     }
     
-#warning 去掉注释会显示[本地]开头, 方便在开发中区分是否为本地推送
+#warning 去掉注释会显示[本地]开头, 方便在开发中区分是否为本地推送/Take out the annotation to show '[本地]', easy for developers separate the APNs from localNotification
     //notification.alertBody = [[NSString alloc] initWithFormat:@"[本地]%@", notification.alertBody];
     
     notification.alertAction = NSLocalizedString(@"open", @"Open");
@@ -307,33 +313,10 @@ static NSString *kGroupName = @"GroupName";
     notification.userInfo = userInfo;
     
     //发送通知
+    //Send LocalNotification
     [[UIApplication sharedApplication] scheduleLocalNotification:notification];
 //    UIApplication *application = [UIApplication sharedApplication];
 //    application.applicationIconBadgeNumber += 1;
-}
-
-#pragma mark - 自动登录回调
-
-- (void)willAutoReconnect{
-    NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
-    NSNumber *showreconnect = [ud objectForKey:@"identifier_showreconnect_enable"];
-    if (showreconnect && [showreconnect boolValue]) {
-        [self hideHud];
-        [self showHint:NSLocalizedString(@"reconnection.ongoing", @"reconnecting...")];
-    }
-}
-
-- (void)didAutoReconnectFinishedWithError:(NSError *)error{
-    NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
-    NSNumber *showreconnect = [ud objectForKey:@"identifier_showreconnect_enable"];
-    if (showreconnect && [showreconnect boolValue]) {
-        [self hideHud];
-        if (error) {
-            [self showHint:NSLocalizedString(@"reconnection.fail", @"reconnection failure, later will continue to reconnection")];
-        }else{
-            [self showHint:NSLocalizedString(@"reconnection.success", @"reconnection successful！")];
-        }
-    }
 }
 
 #pragma mark - public

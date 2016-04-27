@@ -17,15 +17,19 @@
 @property (strong, nonatomic) GroupListViewController *groupController;
 
 //好友请求变化时，更新好友请求未处理的个数
+//When a friend requests a change, updates the number of friends requested
 - (void)reloadApplyView;
 
 //群组变化时，更新群组页面
+//When a group requests a change, updates the number of groupview
 - (void)reloadGroupView;
 
 //好友个数变化时，重新获取数据
+//When the number of friends change, refresh the data
 - (void)reloadDataSource;
 
 //添加好友的操作被触发
+//Add friend's action to be triggered
 - (void)addFriendAction;
 
 @end

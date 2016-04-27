@@ -26,6 +26,7 @@
     NSString * _audioCategory;
     
     //视频属性显示区域
+    //The attribute for video
     UIView *_propertyView;
     UILabel *_sizeLabel;
     UILabel *_timedelayLabel;
@@ -35,6 +36,7 @@
     UILabel *_localBitrateLabel;
     NSTimer *_propertyTimer;
     //弱网检测
+    //network detection
     UILabel *_networkLabel;
 }
 
@@ -223,7 +225,7 @@
     [_cancelButton addTarget:self action:@selector(hangupAction) forControlEvents:UIControlEventTouchUpInside];
     [_actionView addSubview:_cancelButton];
     
-    if (_callSession.type == EMCallTypeVideo) {
+    if (_callSession.type == EMCallTypeVideo) {/*
         CGFloat tmpWidth = _actionView.frame.size.width / 3;
         _recordButton = [[UIButton alloc] initWithFrame:CGRectMake((tmpWidth-40)/2, 20, 40, 40)];
         _recordButton.layer.cornerRadius = 20.f;
@@ -248,17 +250,19 @@
         [_voiceButton.titleLabel setFont:[UIFont systemFontOfSize:10]];
         [_voiceButton setBackgroundColor:[UIColor grayColor]];
         [_voiceButton addTarget:self action:@selector(voicePauseAction) forControlEvents:UIControlEventTouchUpInside];
-        [_actionView addSubview:_voiceButton];
+        [_actionView addSubview:_voiceButton];*/
     }
 }
 
 - (void)_initializeVideoView
 {
     //1.对方窗口
+    //1.the other party window
     _callSession.remoteView = [[EMCallRemoteView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
     [self.view addSubview:_callSession.remoteView];
     
     //2.自己窗口
+    //2.Self window
     CGFloat width = 80;
     CGFloat height = self.view.frame.size.height / self.view.frame.size.width * width;
     _callSession.localView = [[EMCallLocalView alloc] initWithFrame:CGRectMake(self.view.frame.size.width - 90, CGRectGetMaxY(_statusLabel.frame), width, height)];
@@ -326,10 +330,10 @@
     
     _ringPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:url error:nil];
     [_ringPlayer setVolume:1];
-    _ringPlayer.numberOfLoops = -1; //设置音乐播放次数  -1为一直循环
+    _ringPlayer.numberOfLoops = -1; //设置音乐播放次数  -1为一直循环/Set play times
     if([_ringPlayer prepareToPlay])
     {
-        [_ringPlayer play]; //播放
+        [_ringPlayer play]; //播放/Play
     }
 }
 
@@ -522,13 +526,13 @@
             break;
         case EMCallNetworkStatusUnstable:
         {
-            _networkLabel.text = @"当前网络不稳定";
+            _networkLabel.text = NSLocalizedString(@"call.networkUnstable", @"Network Unstable");
             _networkLabel.hidden = NO;
         }
             break;
         case EMCallNetworkStatusNoData:
         {
-            _networkLabel.text = @"没有通话数据";
+            _networkLabel.text = NSLocalizedString(@"call.nodata", @"No call data");
             _networkLabel.hidden = NO;
         }
             break;

@@ -51,13 +51,13 @@
     {
       "orientation" : "portrait",
       "idiom" : "iphone",
+      "filename" : "iphone4.png",
       "extent" : "full-screen",
       "scale" : "2x"
     },
     {
       "orientation" : "portrait",
       "idiom" : "iphone",
-      "filename" : "iphone4.png",
       "extent" : "full-screen",
       "subtype" : "retina4",
       "scale" : "2x"

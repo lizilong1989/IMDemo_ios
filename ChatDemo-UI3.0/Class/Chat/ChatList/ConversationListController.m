@@ -23,6 +23,7 @@
 @implementation EMConversation (search)
 
 //根据用户昵称,环信机器人名称,群名称进行搜索
+//According to the nickname for search
 - (NSString*)showName
 {
     if (self.type == EMConversationTypeChat) {

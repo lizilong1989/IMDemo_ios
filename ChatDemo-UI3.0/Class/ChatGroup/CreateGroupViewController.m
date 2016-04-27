@@ -23,7 +23,7 @@
 @property (strong, nonatomic) EMTextView *textView;
 
 @property (nonatomic) BOOL isPublic;
-@property (strong, nonatomic) UILabel *groupTypeLabel;//群组类型
+@property (strong, nonatomic) UILabel *groupTypeLabel;//群组类型/type of group
 
 @property (nonatomic) BOOL isMemberOn;
 @property (strong, nonatomic) UILabel *groupMemberTitleLabel;

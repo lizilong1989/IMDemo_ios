@@ -232,9 +232,11 @@
 }
 
 //弹出提示的代理方法
+//the delegate of alertView 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
     if ([alertView cancelButtonIndex] != buttonIndex) {
         //获取文本输入框
+        //Get text from textfield
         UITextField *nameTextField = [alertView textFieldAtIndex:0];
         BOOL flag = YES;
         if(nameTextField.text.length > 0) {
