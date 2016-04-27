@@ -48,7 +48,6 @@
 		9003D9181939D8D000DC38A4 /* RealtimeSearchUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 9003D8671939D8D000DC38A4 /* RealtimeSearchUtil.m */; };
 		902DEC551931D934006CA75E /* libresolv.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 902DEC541931D934006CA75E /* libresolv.dylib */; };
 		90517D671A5C3C1F008F1315 /* AppDelegate+EaseMob.m in Sources */ = {isa = PBXBuildFile; fileRef = 90517D661A5C3C1F008F1315 /* AppDelegate+EaseMob.m */; };
-		90517D6A1A5C3DB0008F1315 /* AppDelegate+UMeng.m in Sources */ = {isa = PBXBuildFile; fileRef = 90517D691A5C3DB0008F1315 /* AppDelegate+UMeng.m */; };
 		905325CF1932ED8B00F064D7 /* EMSearchBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 905325CE1932ED8B00F064D7 /* EMSearchBar.m */; };
 		905326B519333E8E00F064D7 /* TTGlobalUICommon.m in Sources */ = {isa = PBXBuildFile; fileRef = 905326B419333E8E00F064D7 /* TTGlobalUICommon.m */; };
 		906083D91B71F894008574B4 /* EMRobotChatTextBubbleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 906083D61B71F894008574B4 /* EMRobotChatTextBubbleView.m */; };
@@ -197,7 +196,6 @@
 		D22AFCEA1CCF621200BCA737 /* EaseConversationCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D22AFC741CCF621200BCA737 /* EaseConversationCell.m */; };
 		D22AFCEC1CCF621D00BCA737 /* EaseUIResource.bundle in Resources */ = {isa = PBXBuildFile; fileRef = D22AFCEB1CCF621D00BCA737 /* EaseUIResource.bundle */; };
 		D257873C1B43EC7000B0E69F /* RobotListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D257873B1B43EC7000B0E69F /* RobotListViewController.m */; };
-		D25972881BCBBFA100148BF6 /* libMobClickLibrary.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3C18CAED1A0B556D00FEB270 /* libMobClickLibrary.a */; };
 		D25978A11BCD072100148BF6 /* ContactListSelectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D25978A01BCD072100148BF6 /* ContactListSelectViewController.m */; };
 		D26CE39B1C2BD37700697F48 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = D26CE39A1C2BD37700697F48 /* Settings.bundle */; };
 		D29A6BA91B7208DF002324BB /* UIImageView+HeadImage.m in Sources */ = {isa = PBXBuildFile; fileRef = D29A6BA81B7208DF002324BB /* UIImageView+HeadImage.m */; };
@@ -363,7 +361,6 @@
 		3C13D94A1A12095D00903622 /* GroupBansViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GroupBansViewController.m; sourceTree = "<group>"; };
 		3C13D94C1A120BA100903622 /* ContactView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ContactView.h; sourceTree = "<group>"; };
 		3C13D94D1A120BA200903622 /* ContactView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ContactView.m; sourceTree = "<group>"; };
-		3C18CAED1A0B556D00FEB270 /* libMobClickLibrary.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libMobClickLibrary.a; sourceTree = "<group>"; };
 		3C1CEF7E196EA37600DBA56B /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
 		3C27F9101A1C8FCD008272EF /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		3C2923AF1988E13300DCCD40 /* BlackListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BlackListViewController.h; sourceTree = "<group>"; };
@@ -422,12 +419,9 @@
 		9003D8641939D8D000DC38A4 /* ApplyViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ApplyViewController.m; sourceTree = "<group>"; };
 		9003D8661939D8D000DC38A4 /* RealtimeSearchUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RealtimeSearchUtil.h; sourceTree = "<group>"; };
 		9003D8671939D8D000DC38A4 /* RealtimeSearchUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RealtimeSearchUtil.m; sourceTree = "<group>"; };
-		9003D91B1939D9C300DC38A4 /* MobClick.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MobClick.h; sourceTree = "<group>"; };
 		902DEC541931D934006CA75E /* libresolv.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libresolv.dylib; path = usr/lib/libresolv.dylib; sourceTree = SDKROOT; };
 		90517D651A5C3C1F008F1315 /* AppDelegate+EaseMob.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "AppDelegate+EaseMob.h"; sourceTree = "<group>"; };
 		90517D661A5C3C1F008F1315 /* AppDelegate+EaseMob.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "AppDelegate+EaseMob.m"; sourceTree = "<group>"; };
-		90517D681A5C3DB0008F1315 /* AppDelegate+UMeng.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "AppDelegate+UMeng.h"; sourceTree = "<group>"; };
-		90517D691A5C3DB0008F1315 /* AppDelegate+UMeng.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "AppDelegate+UMeng.m"; sourceTree = "<group>"; };
 		905325CD1932ED8B00F064D7 /* EMSearchBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EMSearchBar.h; sourceTree = "<group>"; };
 		905325CE1932ED8B00F064D7 /* EMSearchBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EMSearchBar.m; sourceTree = "<group>"; };
 		905326B319333E8E00F064D7 /* TTGlobalUICommon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTGlobalUICommon.h; sourceTree = "<group>"; };
@@ -933,7 +927,6 @@
 			files = (
 				D2E1C8C61CCA222A00D36797 /* libHyphenateFullSDK.a in Frameworks */,
 				D22AFC801CCF621200BCA737 /* libopencore-amrnb.a in Frameworks */,
-				D25972881BCBBFA100148BF6 /* libMobClickLibrary.a in Frameworks */,
 				D29A6BB61B7209C8002324BB /* Social.framework in Frameworks */,
 				D29A6BB51B7209C1002324BB /* Accounts.framework in Frameworks */,
 				C035E8151AEA40F400283EE9 /* CoreData.framework in Frameworks */,
@@ -1121,15 +1114,6 @@
 			path = FriendApply;
 			sourceTree = "<group>";
 		};
-		9003D9191939D9C300DC38A4 /* UMeng */ = {
-			isa = PBXGroup;
-			children = (
-				3C18CAED1A0B556D00FEB270 /* libMobClickLibrary.a */,
-				9003D91B1939D9C300DC38A4 /* MobClick.h */,
-			);
-			path = UMeng;
-			sourceTree = "<group>";
-		};
 		905326B219333E8E00F064D7 /* TTGlobalUICommon */ = {
 			isa = PBXGroup;
 			children = (
@@ -1229,7 +1213,6 @@
 			children = (
 				D24C39B31B561F3B00F16AA8 /* Parse */,
 				90011F8F1AE4BF090088D549 /* EMAlertView */,
-				9003D9191939D9C300DC38A4 /* UMeng */,
 				905326B219333E8E00F064D7 /* TTGlobalUICommon */,
 				90EF2CE4192F2B4E00BDC549 /* SlimeRefresh */,
 			);
@@ -1268,8 +1251,6 @@
 				90911122192EEBB8008A48AA /* AppDelegate.m */,
 				D29A6BB71B720A62002324BB /* AppDelegate+Parse.h */,
 				D29A6BB81B720A62002324BB /* AppDelegate+Parse.m */,
-				90517D681A5C3DB0008F1315 /* AppDelegate+UMeng.h */,
-				90517D691A5C3DB0008F1315 /* AppDelegate+UMeng.m */,
 				90517D651A5C3C1F008F1315 /* AppDelegate+EaseMob.h */,
 				90517D661A5C3C1F008F1315 /* AppDelegate+EaseMob.m */,
 				90CE5C101B43C8E500810187 /* AppDelegate+EaseMobDebug.h */,
@@ -2521,7 +2502,6 @@
 				D22AFCB01CCF621200BCA737 /* NSIndexPath+PSTCollectionViewAdditions.m in Sources */,
 				D22AFCC01CCF621200BCA737 /* EaseMessageModel.m in Sources */,
 				D22AFCC41CCF621200BCA737 /* NSString+Valid.m in Sources */,
-				90517D6A1A5C3DB0008F1315 /* AppDelegate+UMeng.m in Sources */,
 				D22AFC841CCF621200BCA737 /* MJRefreshAutoFooter.m in Sources */,
 				3C2923B11988E13300DCCD40 /* BlackListViewController.m in Sources */,
 				D22AFCB21CCF621200BCA737 /* PSTCollectionViewCell.m in Sources */,
