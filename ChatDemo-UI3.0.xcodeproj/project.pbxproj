@@ -76,7 +76,6 @@
 		90F1BED11930493200121AEC /* libiconv.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 90F1BED01930493100121AEC /* libiconv.dylib */; };
 		90F1BED51930495800121AEC /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 90F1BED41930495800121AEC /* MobileCoreServices.framework */; };
 		C035E8151AEA40F400283EE9 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3C36CA691A1EDB6200CDDD48 /* CoreData.framework */; };
-		D22AFC751CCF621200BCA737 /* EaseUI.m in Sources */ = {isa = PBXBuildFile; fileRef = D22AFB531CCF621200BCA737 /* EaseUI.m */; };
 		D22AFC761CCF621200BCA737 /* EMAudioPlayerUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = D22AFB5D1CCF621200BCA737 /* EMAudioPlayerUtil.m */; };
 		D22AFC771CCF621200BCA737 /* EMAudioRecorderUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = D22AFB5F1CCF621200BCA737 /* EMAudioRecorderUtil.m */; };
 		D22AFC781CCF621200BCA737 /* EMCDDeviceManager+Media.m in Sources */ = {isa = PBXBuildFile; fileRef = D22AFB611CCF621200BCA737 /* EMCDDeviceManager+Media.m */; };
@@ -472,7 +471,6 @@
 		90F1BED21930493F00121AEC /* libstdc++.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libstdc++.dylib"; path = "usr/lib/libstdc++.dylib"; sourceTree = SDKROOT; };
 		90F1BED41930495800121AEC /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
 		D22AFB521CCF621200BCA737 /* EaseUI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EaseUI.h; sourceTree = "<group>"; };
-		D22AFB531CCF621200BCA737 /* EaseUI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EaseUI.m; sourceTree = "<group>"; };
 		D22AFB581CCF621200BCA737 /* EMCDDeviceManagerDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EMCDDeviceManagerDelegate.h; sourceTree = "<group>"; };
 		D22AFB591CCF621200BCA737 /* EMCDDeviceManagerProximitySensorDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EMCDDeviceManagerProximitySensorDelegate.h; sourceTree = "<group>"; };
 		D22AFB5B1CCF621200BCA737 /* DemoErrorCode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DemoErrorCode.h; sourceTree = "<group>"; };
@@ -1298,7 +1296,6 @@
 			isa = PBXGroup;
 			children = (
 				D22AFB521CCF621200BCA737 /* EaseUI.h */,
-				D22AFB531CCF621200BCA737 /* EaseUI.m */,
 				D22AFB541CCF621200BCA737 /* EMUIKit */,
 			);
 			name = EaseUI;
@@ -2466,7 +2463,6 @@
 				D22AFCC51CCF621200BCA737 /* UIViewController+DismissKeyboard.m in Sources */,
 				D22AFCC91CCF621200BCA737 /* EaseMessageReadManager.m in Sources */,
 				D22AFCDD1CCF621200BCA737 /* EaseBubbleView+Location.m in Sources */,
-				D22AFC751CCF621200BCA737 /* EaseUI.m in Sources */,
 				D22AFCA31CCF621200BCA737 /* EMSDWebImageDownloader.m in Sources */,
 				D22AFC771CCF621200BCA737 /* EMAudioRecorderUtil.m in Sources */,
 				D29A6BA91B7208DF002324BB /* UIImageView+HeadImage.m in Sources */,
