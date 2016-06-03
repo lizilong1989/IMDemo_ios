@@ -61,16 +61,10 @@
         //退出聊天室，删除会话
         //leave the chatrrom,delete the conversation
         NSString *chatter = [self.conversation.conversationId copy];
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-            EMError *error = nil;
-            [[EMClient sharedClient].roomManager leaveChatroom:chatter error:&error];
-            if (error !=nil) {
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error" message:[NSString stringWithFormat:@"Leave chatroom '%@' failed [%@]", chatter, error.errorDescription] delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
-                    [alertView show];
-                });
-            }
-        });
+        [[EMClient sharedClient].roomManager asyncLeaveChatroom:chatter success:nil failure:^(EMError *aError) {
+            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error" message:[NSString stringWithFormat:@"Leave chatroom '%@' failed [%@]", chatter, aError.errorDescription] delegate:nil cancelButtonTitle:NSLocalizedString(@"ok", @"ok") otherButtonTitles:nil, nil];
+            [alertView show];
+        }];
     }
     
     [[EMClient sharedClient] removeDelegate:self];

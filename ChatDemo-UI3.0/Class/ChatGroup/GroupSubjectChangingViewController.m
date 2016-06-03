@@ -114,17 +114,18 @@
 - (void)saveSubject
 {
     EMConversation *conversation = [[EMClient sharedClient].chatManager getConversation:_group.groupId type:EMConversationTypeGroupChat createIfNotExist:NO];
-    EMError *error = nil;
-    [[EMClient sharedClient].groupManager changeGroupSubject:_subjectField.text forGroup:_group.groupId error:&error];
-    if (!error) {
-        if ([_group.groupId isEqualToString:conversation.conversationId]) {
+    __weak typeof(self) weakSelf = self;
+    [[EMClient sharedClient].groupManager asyncChangeGroupSubject:_subjectField.text forGroup:_group.groupId success:^(EMGroup *aGroup) {
+        GroupSubjectChangingViewController *strongSelf = weakSelf;
+        if ([strongSelf->_group.groupId isEqualToString:conversation.conversationId]) {
             NSMutableDictionary *ext = [NSMutableDictionary dictionaryWithDictionary:conversation.ext];
-            [ext setObject:_group.subject forKey:@"subject"];
-            [ext setObject:[NSNumber numberWithBool:_group.isPublic] forKey:@"isPublic"];
+            [ext setObject:strongSelf->_group.subject forKey:@"subject"];
+            [ext setObject:[NSNumber numberWithBool:strongSelf->_group.isPublic] forKey:@"isPublic"];
             conversation.ext = ext;
         }
-    }
-    [self back];
+        [weakSelf back];
+    } failure:^(EMError *aError) {
+    }];
 }
 
 @end

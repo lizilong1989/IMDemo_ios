@@ -83,27 +83,18 @@ static ChatDemoHelper *helper = nil;
 
 - (void)asyncPushOptions
 {
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        EMError *error = nil;
-        [[EMClient sharedClient] getPushOptionsFromServerWithError:&error];
-    });
+    [[EMClient sharedClient] asyncGetPushOptionsFromServer:nil failure:nil];
 }
 
 - (void)asyncGroupFromServer
 {
     __weak typeof(self) weakself = self;
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        [[EMClient sharedClient].groupManager loadAllMyGroupsFromDB];
-        EMError *error = nil;
-        [[EMClient sharedClient].groupManager getMyGroupsFromServerWithError:&error];
-        if (!error) {
-            if (weakself.contactViewVC) {
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    [weakself.contactViewVC reloadGroupView];
-                });
-            }
+    [[EMClient sharedClient].groupManager loadAllMyGroupsFromDB];
+    [[EMClient sharedClient].groupManager asyncGetMyGroupsFromServer:^(NSArray *aList) {
+        if (weakself.contactViewVC) {
+            [weakself.contactViewVC reloadGroupView];
         }
-    });
+    } failure:nil];
 }
 
 - (void)asyncConversationFromDB
@@ -144,17 +135,12 @@ static ChatDemoHelper *helper = nil;
         alertView.tag = 100;
         [alertView show];
     } else if([[EMClient sharedClient] isConnected]){
-        UIView *view = self.mainVC.view;
-        [MBProgressHUD showHUDAddedTo:view animated:YES];
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
             BOOL flag = [[EMClient sharedClient] dataMigrationTo3];
             if (flag) {
                 [self asyncGroupFromServer];
                 [self asyncConversationFromDB];
             }
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [MBProgressHUD hideAllHUDsForView:view animated:YES];
-            });
         });
     }
 }
@@ -659,7 +645,7 @@ static ChatDemoHelper *helper = nil;
 {
     if (_callSession) {
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-            EMError *error = [[EMClient sharedClient].callManager answerCall:_callSession.sessionId];
+            EMError *error = [[EMClient sharedClient].callManager answerIncomingCall:_callSession.sessionId];
             if (error) {
                 dispatch_async(dispatch_get_main_queue(), ^{
                     if (error.code == EMErrorNetworkUnavailable) {
@@ -713,7 +699,7 @@ static ChatDemoHelper *helper = nil;
     self.chatVC = nil;
     self.contactViewVC = nil;
     
-    [[EMClient sharedClient] logout:NO];
+    [[EMClient sharedClient] asyncLogout:NO success:NULL failure:NULL];
     
 #if DEMO_CALL == 1
     [self hangupCallWithReason:EMCallEndReasonFailed];

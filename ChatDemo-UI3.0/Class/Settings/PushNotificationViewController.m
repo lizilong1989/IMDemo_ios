@@ -247,19 +247,13 @@
     }
     
     __weak typeof(self) weakself = self;
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        EMError *error = nil;
-        if (isUpdate) {
-            error = [[EMClient sharedClient] updatePushOptionsToServer];
-        }
-        dispatch_async(dispatch_get_main_queue(), ^{
-            if (!error) {
-                [weakself.navigationController popViewControllerAnimated:YES];
-            } else {
-                [weakself showHint:[NSString stringWithFormat:@"保存失败-error:%@",error.errorDescription]];
-            }
-        });
-    });
+    if (isUpdate) {
+        [[EMClient sharedClient] asyncUpdatePushOptionsToServer:^{
+            [weakself.navigationController popViewControllerAnimated:YES];
+        } failure:^(EMError *aError) {
+            [weakself showHint:[NSString stringWithFormat:@"保存失败-error:%@",aError.errorDescription]];
+        }];
+    }
 }
 
 - (void)pushDisplayChanged:(UISwitch *)pushDisplaySwitch
@@ -276,17 +270,11 @@
 - (void)loadPushOptions
 {
     __weak typeof(self) weakself = self;
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        EMError *error = nil;
-        [[EMClient sharedClient] getPushOptionsFromServerWithError:&error];
-        dispatch_async(dispatch_get_main_queue(), ^{
-            if (error == nil) {
-                [weakself refreshPushOptions];
-            } else {
-                
-            }
-        });
-    });
+    [[EMClient sharedClient] asyncGetPushOptionsFromServer:^(EMPushOptions *aPushOptions) {
+        [weakself refreshPushOptions];
+    } failure:^(EMError *aError) {
+        
+    }];
 }
 
 - (void)refreshPushOptions

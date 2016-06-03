@@ -319,19 +319,18 @@
 {
     __weak SettingsViewController *weakSelf = self;
     [self showHudInView:self.view hint:NSLocalizedString(@"setting.logoutOngoing", @"loging out...")];
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        EMError *error = [[EMClient sharedClient] logout:YES];
+    [[EMClient sharedClient] asyncLogout:YES success:^{
         dispatch_async(dispatch_get_main_queue(), ^{
             [weakSelf hideHud];
-            if (error != nil) {
-                [weakSelf showHint:error.errorDescription];
-            }
-            else{
-                [[ApplyViewController shareController] clear];
-                [[NSNotificationCenter defaultCenter] postNotificationName:KNOTIFICATION_LOGINCHANGE object:@NO];
-            }
+            [[ApplyViewController shareController] clear];
+            [[NSNotificationCenter defaultCenter] postNotificationName:KNOTIFICATION_LOGINCHANGE object:@NO];
         });
-    });
+    } failure:^(EMError *aError) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [weakSelf hideHud];
+            [weakSelf showHint:aError.errorDescription];
+        });
+    }];
 }
  
 @end

@@ -301,16 +301,15 @@
     [self showHudInView:self.view hint:NSLocalizedString(@"loadData", @"Load data...")];
     
     __weak typeof(self) weakSelf = self;
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        EMError *error = nil;
-        NSArray *list = [[EMClient sharedClient].roomManager getAllChatroomsFromServerWithError:&error];
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [weakSelf.dataSource removeAllObjects];
-            [weakSelf.dataSource addObjectsFromArray:list];
-            [weakSelf.tableView reloadData];
-            [weakSelf hideHud];
-        });
-    });
+    [[EMClient sharedClient].roomManager asyncGetAllChatroomsFromServer:^(NSArray *aList) {
+        [weakSelf.dataSource removeAllObjects];
+        [weakSelf.dataSource addObjectsFromArray:aList];
+        [weakSelf.tableView reloadData];
+        [weakSelf hideHud];
+    } failure:^(EMError *aError) {
+        [weakSelf hideHud];
+        [weakSelf showHint:aError.errorDescription];
+    }];
 }
 
 #pragma mark - EMChatroomManagerDelegate

@@ -116,8 +116,12 @@
     {
         //设置推送设置
         //set nickname for apns
-        [[EMClient sharedClient] setApnsNickname:_nickTextField.text];
-        [self.navigationController popViewControllerAnimated:YES];
+        __weak typeof(self) weakself = self;
+        [[EMClient sharedClient] asyncSetApnsNickname:_nickTextField.text success:^{
+            [weakself.navigationController popViewControllerAnimated:YES];
+        } failure:^(EMError *aError) {
+            [weakself showHint:aError.description];
+        }];
     } else {
         [EMAlertView showAlertWithTitle:NSLocalizedString(@"prompt", @"Prompt")
                                 message:NSLocalizedString(@"setting.namenotempty", @"Name cannot be empty")

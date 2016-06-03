@@ -151,14 +151,18 @@
             //设置推送设置
             [self showHint:NSLocalizedString(@"setting.saving", "saving...")];
             __weak typeof(self) weakSelf = self;
-            [[EMClient sharedClient] setApnsNickname:nameTextField.text];
-            [[UserProfileManager sharedInstance] updateUserProfileInBackground:@{kPARSE_HXUSER_NICKNAME:nameTextField.text} completion:^(BOOL success, NSError *error) {
-                [self hideHud];
-                if (success) {
-                    [weakSelf.tableView reloadData];
-                } else {
-                    [self showHint:NSLocalizedString(@"setting.saveFailed", "save failed") yOffset:0];
-                }
+            [[EMClient sharedClient] asyncSetApnsNickname:nameTextField.text success:^{
+                [[UserProfileManager sharedInstance] updateUserProfileInBackground:@{kPARSE_HXUSER_NICKNAME:nameTextField.text} completion:^(BOOL success, NSError *error) {
+                    [weakSelf hideHud];
+                    if (success) {
+                        [weakSelf.tableView reloadData];
+                    } else {
+                        [weakSelf showHint:NSLocalizedString(@"setting.saveFailed", "save failed") yOffset:0];
+                    }
+                }];
+            } failure:^(EMError *aError) {
+                [weakSelf hideHud];
+                [weakSelf showHint:NSLocalizedString(@"setting.saveFailed", "save failed") yOffset:0];
             }];
         }
     }

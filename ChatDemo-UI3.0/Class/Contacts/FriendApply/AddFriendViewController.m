@@ -282,15 +282,15 @@
     NSString *buddyName = [self.dataSource objectAtIndex:indexPath.row];
     if (buddyName && buddyName.length > 0) {
         [self showHudInView:self.view hint:NSLocalizedString(@"friend.sendApply", @"sending application...")];
-        EMError *error = [[EMClient sharedClient].contactManager addContact:buddyName message:message];
-        [self hideHud];
-        if (error) {
-            [self showHint:NSLocalizedString(@"friend.sendApplyFail", @"send application fails, please operate again")];
-        }
-        else{
-            [self showHint:NSLocalizedString(@"friend.sendApplySuccess", @"send successfully")];
-            [self.navigationController popViewControllerAnimated:YES];
-        }
+        __weak typeof(self) weakSelf = self;
+        [[EMClient sharedClient].contactManager asyncAddContact:buddyName message:message success:^{
+            [weakSelf hideHud];
+            [weakSelf showHint:NSLocalizedString(@"friend.sendApplySuccess", @"send successfully")];
+            [weakSelf.navigationController popViewControllerAnimated:YES];
+        } failure:^(EMError *aError) {
+            [weakSelf hideHud];
+            [weakSelf showHint:NSLocalizedString(@"friend.sendApplyFail", @"send application fails, please operate again")];
+        }];
     }
 }
 

@@ -97,33 +97,29 @@
         }
         [self showHudInView:self.view hint:NSLocalizedString(@"register.ongoing", @"Is to register...")];
         __weak typeof(self) weakself = self;
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-            EMError *error = [[EMClient sharedClient] registerWithUsername:weakself.usernameTextField.text password:weakself.passwordTextField.text];
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [weakself hideHud];
-                if (!error) {
-                    TTAlertNoTitle(NSLocalizedString(@"register.success", @"Registered successfully, please log in"));
-                }else{
-                    switch (error.code) {
-                        case EMErrorServerNotReachable:
-                            TTAlertNoTitle(NSLocalizedString(@"error.connectServerFail", @"Connect to the server failed!"));
-                            break;
-                        case EMErrorUserAlreadyExist:
-                            TTAlertNoTitle(NSLocalizedString(@"register.repeat", @"You registered user already exists!"));
-                            break;
-                        case EMErrorNetworkUnavailable:
-                            TTAlertNoTitle(NSLocalizedString(@"error.connectNetworkFail", @"No network connection!"));
-                            break;
-                        case EMErrorServerTimeout:
-                            TTAlertNoTitle(NSLocalizedString(@"error.connectServerTimeout", @"Connect to the server timed out!"));
-                            break;
-                        default:
-                            TTAlertNoTitle(NSLocalizedString(@"register.fail", @"Registration failed"));
-                            break;
-                    }
-                }
-            });
-        });
+        [[EMClient sharedClient] asyncRegisterWithUsername:self.usernameTextField.text password:self.passwordTextField.text success:^{
+            [weakself hideHud];
+            TTAlertNoTitle(NSLocalizedString(@"register.success", @"Registered successfully, please log in"));
+        } failure:^(EMError *aError) {
+            [weakself hideHud];
+            switch (aError.code) {
+                case EMErrorServerNotReachable:
+                    TTAlertNoTitle(NSLocalizedString(@"error.connectServerFail", @"Connect to the server failed!"));
+                    break;
+                case EMErrorUserAlreadyExist:
+                    TTAlertNoTitle(NSLocalizedString(@"register.repeat", @"You registered user already exists!"));
+                    break;
+                case EMErrorNetworkUnavailable:
+                    TTAlertNoTitle(NSLocalizedString(@"error.connectNetworkFail", @"No network connection!"));
+                    break;
+                case EMErrorServerTimeout:
+                    TTAlertNoTitle(NSLocalizedString(@"error.connectServerTimeout", @"Connect to the server timed out!"));
+                    break;
+                default:
+                    TTAlertNoTitle(NSLocalizedString(@"register.fail", @"Registration failed"));
+                    break;
+            }
+        }];
     }
 }
 
@@ -135,59 +131,53 @@
     //异步登陆账号
     //Asynchronous to login
     __weak typeof(self) weakself = self;
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        EMError *error = [[EMClient sharedClient] loginWithUsername:username password:password];
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [weakself hideHud];
-            if (!error) {
-                //设置是否自动登录
-                //Set whether autologin or not
-                [[EMClient sharedClient].options setIsAutoLogin:YES];
+    [[EMClient sharedClient] asyncLoginWithUsername:username password:password success:^{
+        //设置是否自动登录
+        //Set whether autologin or not
+        [[EMClient sharedClient].options setIsAutoLogin:YES];
+        
+        //获取数据库中数据
+        //Get data from database
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            [[EMClient sharedClient] dataMigrationTo3];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [[ChatDemoHelper shareHelper] asyncGroupFromServer];
+                [[ChatDemoHelper shareHelper] asyncConversationFromDB];
+                [[ChatDemoHelper shareHelper] asyncPushOptions];
+                [MBProgressHUD hideAllHUDsForView:weakself.view animated:YES];
+                //发送自动登陆状态通知
+                //Send notification for state of login
+                [[NSNotificationCenter defaultCenter] postNotificationName:KNOTIFICATION_LOGINCHANGE object:@([[EMClient sharedClient] isLoggedIn])];
                 
-                //获取数据库中数据
-                //Get data from database
-                [MBProgressHUD showHUDAddedTo:weakself.view animated:YES];
-                dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-                    [[EMClient sharedClient] dataMigrationTo3];
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                        [[ChatDemoHelper shareHelper] asyncGroupFromServer];
-                        [[ChatDemoHelper shareHelper] asyncConversationFromDB];
-                        [[ChatDemoHelper shareHelper] asyncPushOptions];
-                        [MBProgressHUD hideAllHUDsForView:weakself.view animated:YES];
-                        //发送自动登陆状态通知
-                        //Send notification for state of login
-                        [[NSNotificationCenter defaultCenter] postNotificationName:KNOTIFICATION_LOGINCHANGE object:@([[EMClient sharedClient] isLoggedIn])];
-                        
-                        //保存最近一次登录用户名
-                        //Save the username for last login
-                        [weakself saveLastLoginUsername];
-                    });
-                });
-            } else {
-                switch (error.code)
-                {
-//                    case EMErrorNotFound:
-//                        TTAlertNoTitle(error.errorDescription);
-//                        break;
-                    case EMErrorNetworkUnavailable:
-                        TTAlertNoTitle(NSLocalizedString(@"error.connectNetworkFail", @"No network connection!"));
-                        break;
-                    case EMErrorServerNotReachable:
-                        TTAlertNoTitle(NSLocalizedString(@"error.connectServerFail", @"Connect to the server failed!"));
-                        break;
-                    case EMErrorUserAuthenticationFailed:
-                        TTAlertNoTitle(error.errorDescription);
-                        break;
-                    case EMErrorServerTimeout:
-                        TTAlertNoTitle(NSLocalizedString(@"error.connectServerTimeout", @"Connect to the server timed out!"));
-                        break;
-                    default:
-                        TTAlertNoTitle(NSLocalizedString(@"login.fail", @"Login failure"));
-                        break;
-                }
-            }
+                //保存最近一次登录用户名
+                //Save the username for last login
+                [weakself saveLastLoginUsername];
+            });
         });
-    });
+    } failure:^(EMError *aError) {
+        switch (aError.code)
+        {
+            case EMErrorUserNotFound:
+                TTAlertNoTitle(aError.errorDescription);
+                break;
+            case EMErrorNetworkUnavailable:
+                TTAlertNoTitle(NSLocalizedString(@"error.connectNetworkFail", @"No network connection!"));
+                break;
+            case EMErrorServerNotReachable:
+                TTAlertNoTitle(NSLocalizedString(@"error.connectServerFail", @"Connect to the server failed!"));
+                break;
+            case EMErrorUserAuthenticationFailed:
+                TTAlertNoTitle(aError.errorDescription);
+                break;
+            case EMErrorServerTimeout:
+                TTAlertNoTitle(NSLocalizedString(@"error.connectServerTimeout", @"Connect to the server timed out!"));
+                break;
+            default:
+                TTAlertNoTitle(NSLocalizedString(@"login.fail", @"Login failure"));
+                break;
+        }
+        
+    }];
 }
 
 //弹出提示的代理方法
@@ -200,7 +190,7 @@
         {
             //设置推送设置
             //set nickname for apns
-            [[EMClient sharedClient] setApnsNickname:nameTextField.text];
+            [[EMClient sharedClient] asyncSetApnsNickname:nameTextField.text success:^{} failure:^(EMError *aError) {}];
         }
     }
     //登陆
