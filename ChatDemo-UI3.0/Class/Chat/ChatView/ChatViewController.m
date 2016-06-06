@@ -61,7 +61,10 @@
         //退出聊天室，删除会话
         //leave the chatrrom,delete the conversation
         NSString *chatter = [self.conversation.conversationId copy];
-        [[EMClient sharedClient].roomManager asyncLeaveChatroom:chatter success:nil failure:^(EMError *aError) {
+        [[EMClient sharedClient].roomManager asyncLeaveChatroom:chatter success:^(EMChatroom *aRoom){
+            //退出成功
+            //leave succeed
+        } failure:^(EMError *aError) {
             UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error" message:[NSString stringWithFormat:@"Leave chatroom '%@' failed [%@]", chatter, aError.errorDescription] delegate:nil cancelButtonTitle:NSLocalizedString(@"ok", @"ok") otherButtonTitles:nil, nil];
             [alertView show];
         }];

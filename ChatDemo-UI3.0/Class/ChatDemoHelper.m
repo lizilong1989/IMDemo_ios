@@ -83,7 +83,13 @@ static ChatDemoHelper *helper = nil;
 
 - (void)asyncPushOptions
 {
-    [[EMClient sharedClient] asyncGetPushOptionsFromServer:nil failure:nil];
+    [[EMClient sharedClient] asyncGetPushOptionsFromServer:^(EMPushOptions *aOptions) {
+        //获取成功
+        //Get succeed
+    } failure:^(EMError *aError) {
+        //获取失败
+        //Get failed
+    }];
 }
 
 - (void)asyncGroupFromServer
@@ -94,7 +100,10 @@ static ChatDemoHelper *helper = nil;
         if (weakself.contactViewVC) {
             [weakself.contactViewVC reloadGroupView];
         }
-    } failure:nil];
+    } failure:^(EMError *aError) {
+        //获取失败
+        //Get failed
+    }];
 }
 
 - (void)asyncConversationFromDB
