@@ -699,7 +699,13 @@ static ChatDemoHelper *helper = nil;
     self.chatVC = nil;
     self.contactViewVC = nil;
     
-    [[EMClient sharedClient] asyncLogout:NO success:NULL failure:NULL];
+    [[EMClient sharedClient] asyncLogout:NO success:^{
+        //退出成功
+        //logout succeed
+    } failure:^(EMError *aError) {
+        //退出失败
+        //logout failed
+    }];
     
 #if DEMO_CALL == 1
     [self hangupCallWithReason:EMCallEndReasonFailed];

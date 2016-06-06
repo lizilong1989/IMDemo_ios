@@ -61,7 +61,13 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 // Get deviceToken to pass SDK
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
 {
-    [[EMClient sharedClient] asyncBindDeviceToken:deviceToken success:^{} failure:^(EMError *aError) {}];
+    [[EMClient sharedClient] asyncBindDeviceToken:deviceToken success:^{
+        //绑定成功
+        //bind succeed
+    } failure:^(EMError *aError) {
+        //绑定失败
+        //bind failed
+    }];
 }
 
 // 注册deviceToken失败，此处失败，与环信SDK无关，一般是您的环境配置或者证书配置有误
