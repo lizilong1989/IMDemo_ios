@@ -39,6 +39,7 @@
 "accept" = "接受";
 "reject" = "拒绝";
 "wait" = "请等待...";
+"saveFail" = "保存失败";
 
 "sendingApply" = "正在发送申请...";
 "acceptFail" = "接受失败";
@@ -132,7 +133,7 @@
 "group.join.ongoing" = "加入群组...";
 "group.join.fail" = "加入群组失败，请重新操作";
 "group.sendingApply" = "发送加群申请...";
-"group.sendApplyRepeat" = "申请已发送";
+"group.applyHasBeenSent" = "申请已发送";
 "group.maxUserCount" = "群成员个数超了最大值了";
 
 //Create Group

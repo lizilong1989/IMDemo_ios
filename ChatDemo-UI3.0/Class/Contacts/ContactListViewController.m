@@ -560,10 +560,8 @@
         NSArray *buddyList = aList;
         [[EMClient sharedClient].contactManager asyncGetBlackListFromServer:^(NSArray *aList) {
             [weakself.contactsSource removeAllObjects];
-            for (NSInteger i = (buddyList.count - 1); i >= 0; i--) {
-                NSString *username = [buddyList objectAtIndex:i];
-                [weakself.contactsSource addObject:username];
-            }
+            [weakself.contactsSource addObjectsFromArray:buddyList];
+            
             NSString *loginUsername = [[EMClient sharedClient] currentUsername];
             if (loginUsername && loginUsername.length > 0) {
                 [weakself.contactsSource addObject:loginUsername];

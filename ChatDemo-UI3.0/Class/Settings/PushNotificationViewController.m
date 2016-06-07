@@ -251,7 +251,7 @@
         [[EMClient sharedClient] asyncUpdatePushOptionsToServer:^{
             [weakself.navigationController popViewControllerAnimated:YES];
         } failure:^(EMError *aError) {
-            [weakself showHint:[NSString stringWithFormat:@"保存失败-error:%@",aError.errorDescription]];
+            [weakself showHint:[NSString stringWithFormat:@"%@-error:%@",NSLocalizedString(@"saveFail", @"Save failed"),aError.errorDescription]];
         }];
     }
 }

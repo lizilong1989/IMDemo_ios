@@ -449,9 +449,7 @@ typedef NS_ENUM(NSInteger, GettingMoreFooterViewState){
     __weak typeof(self) weakSelf = self;
     [[EMClient sharedClient].groupManager asyncGetPublicGroupsFromServerWithCursor:self.cursor pageSize:FetchPublicGroupsPageSize success:^(EMCursorResult *aCursor) {
         [weakSelf hideHud];
-        NSMutableArray *oldGroups = [weakSelf.dataSource mutableCopy];
         [weakSelf.dataSource removeAllObjects];
-        [oldGroups removeAllObjects];
         [weakSelf.dataSource addObjectsFromArray:aCursor.list];
         [weakSelf.tableView reloadData];
         weakSelf.cursor = aCursor.cursor;

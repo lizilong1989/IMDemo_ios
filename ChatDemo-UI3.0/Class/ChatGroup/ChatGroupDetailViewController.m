@@ -332,20 +332,14 @@
     [self showHudInView:self.view hint:NSLocalizedString(@"group.addingOccupant", @"add a group member...")];
     
     __weak typeof(self) weakSelf = self;
-    NSMutableArray *source = [NSMutableArray array];
-    for (NSString *username in selectedSources) {
-        [source addObject:username];
-    }
-    
     NSString *username = [[EMClient sharedClient] currentUsername];
     NSString *messageStr = [NSString stringWithFormat:NSLocalizedString(@"group.somebodyInvite", @"%@ invite you to join group \'%@\'"), username, weakSelf.chatGroup.subject];
-    EMError *error = nil;
-    
-    [[EMClient sharedClient].groupManager asyncAddOccupants:source toGroup:weakSelf.chatGroup.groupId welcomeMessage:messageStr success:^(EMGroup *aGroup) {
+    [[EMClient sharedClient].groupManager asyncAddOccupants:selectedSources toGroup:self.chatGroup.groupId welcomeMessage:messageStr success:^(EMGroup *aGroup) {
+        [weakSelf hideHud];
         [weakSelf reloadDataSource];
     } failure:^(EMError *aError) {
         [weakSelf hideHud];
-        [weakSelf showHint:error.errorDescription];
+        [weakSelf showHint:aError.errorDescription];
     }];
     
     return YES;

@@ -253,7 +253,8 @@
         [weakSelf hideHud];
         [weakSelf.navigationController popViewControllerAnimated:YES];
     } failure:^(EMError *aError) {
-        [weakSelf showHint:NSLocalizedString(@"group.join.fail", @"again failed to join the group, please")];
+        [weakSelf hideHud];
+        [weakSelf showHint:NSLocalizedString(@"group.join.fail", @"join the group failed again")];
     }];
 }
 
@@ -263,7 +264,7 @@
     __weak typeof(self) weakSelf = self;
     [[EMClient sharedClient].groupManager asyncApplyJoinPublicGroup:groupId message:message success:^(EMGroup *aGroup) {
         [weakSelf hideHud];
-        [weakSelf showHint:NSLocalizedString(@"group.sendApplyRepeat", @"application has been sent")];
+        [weakSelf showHint:NSLocalizedString(@"group.applyHasBeenSent", @"application has been sent")];
     } failure:^(EMError *aError) {
         [weakSelf hideHud];
         [weakSelf showHint:aError.errorDescription];
