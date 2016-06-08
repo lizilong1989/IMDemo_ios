@@ -19,7 +19,6 @@
 #import "MBProgressHUD.h"
 
 /**
- *  本类中做了EaseMob初始化和推送等操作
  *  Initialize Hyphenate sdk and bind deviceToken for APNS
  */
 
@@ -31,7 +30,6 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
               apnsCertName:(NSString *)apnsCertName
                otherConfig:(NSDictionary *)otherConfig
 {
-    //注册登录状态监听
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(loginStateChange:)
                                                  name:KNOTIFICATION_LOGINCHANGE
@@ -57,7 +55,6 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 
 #pragma mark - App Delegate
 
-// 将得到的deviceToken传给SDK
 // Get deviceToken to pass SDK
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
 {
@@ -70,7 +67,6 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
     }];
 }
 
-// 注册deviceToken失败，此处失败，与环信SDK无关，一般是您的环境配置或者证书配置有误
 // Regist deviceToken failed,not Hyphenate SDK Business,generally have something wrong with your environment configuration or certificate configuration
 - (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error
 {
@@ -88,8 +84,7 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     BOOL loginSuccess = [notification.object boolValue];
     UINavigationController *navigationController = nil;
-    if (loginSuccess) {//登陆成功加载主窗口控制器/login succeed and load the main view
-        //加载申请通知的数据
+    if (loginSuccess) {//login succeed and load the main view
         //Load application notification data
         [[ApplyViewController shareController] loadDataSourceFromLocalDB];
         if (self.mainController == nil) {
@@ -98,7 +93,6 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
         }else{
             navigationController  = self.mainController.navigationController;
         }
-        // 环信UIdemo中有用到Parse，您的项目中不需要添加，可忽略此处
         // Hyphenate UIDemo use parse,please ignore
         [self initParse];
         
@@ -108,7 +102,7 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
         [[ChatDemoHelper shareHelper] asyncConversationFromDB];
         [[ChatDemoHelper shareHelper] asyncPushOptions];
     }
-    else{//登陆失败加载登陆页面控制器/login failed and load the login view
+    else{//login failed and load the login view
         if (self.mainController) {
             [self.mainController.navigationController popToRootViewControllerAnimated:NO];
         }
@@ -120,7 +114,6 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
         [self clearParse];
     }
     
-    //设置7.0以下的导航栏
     //set the navigationBar by blow ios7
     if ([UIDevice currentDevice].systemVersion.floatValue < 7.0){
         navigationController.navigationBar.barStyle = UIBarStyleDefault;
@@ -134,7 +127,6 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 
 #pragma mark - EMPushManagerDelegateDevice
 
-// 打印收到的apns信息
 // print apns content
 -(void)didReceiveRemoteNotification:(NSDictionary *)userInfo
 {

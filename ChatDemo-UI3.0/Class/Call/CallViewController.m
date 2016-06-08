@@ -25,7 +25,6 @@
     
     NSString * _audioCategory;
     
-    //视频属性显示区域
     //The attribute for video
     UIView *_propertyView;
     UILabel *_sizeLabel;
@@ -35,7 +34,7 @@
     UILabel *_remoteBitrateLabel;
     UILabel *_localBitrateLabel;
     NSTimer *_propertyTimer;
-    //弱网检测
+
     //network detection
     UILabel *_networkLabel;
 }
@@ -229,24 +228,24 @@
         CGFloat tmpWidth = _actionView.frame.size.width / 3;
         _recordButton = [[UIButton alloc] initWithFrame:CGRectMake((tmpWidth-40)/2, 20, 40, 40)];
         _recordButton.layer.cornerRadius = 20.f;
-        [_recordButton setTitle:@"录制" forState:UIControlStateNormal];
-        [_recordButton setTitle:@"停止播放" forState:UIControlStateSelected];
+        [_recordButton setTitle:NSLocalizedString(@"call.record", @"Record") forState:UIControlStateNormal];
+        [_recordButton setTitle::NSLocalizedString(@"call.stopRecording", @"Stop Recording") forState:UIControlStateSelected];
         [_recordButton.titleLabel setFont:[UIFont systemFontOfSize:10]];
         [_recordButton setBackgroundColor:[UIColor grayColor]];
         [_recordButton addTarget:self action:@selector(recordAction) forControlEvents:UIControlEventTouchUpInside];
         [_actionView addSubview:_recordButton];
         _videoButton = [[UIButton alloc] initWithFrame:CGRectMake(tmpWidth + (tmpWidth - 40) / 2, 20, 40, 40)];
         _videoButton.layer.cornerRadius = 20.f;
-        [_videoButton setTitle:@"视频开启" forState:UIControlStateNormal];
-        [_videoButton setTitle:@"视频中断" forState:UIControlStateSelected];
+        [_videoButton setTitle:NSLocalizedString(@"call.startVideo", @"Start the video") forState:UIControlStateNormal];
+        [_videoButton setTitle:NSLocalizedString(@"call.pauseVideo", @"Pause the video") forState:UIControlStateSelected];
         [_videoButton.titleLabel setFont:[UIFont systemFontOfSize:10]];
         [_videoButton setBackgroundColor:[UIColor grayColor]];
         [_videoButton addTarget:self action:@selector(videoPauseAction) forControlEvents:UIControlEventTouchUpInside];
         [_actionView addSubview:_videoButton];
         _voiceButton = [[UIButton alloc] initWithFrame:CGRectMake(tmpWidth * 2 + (tmpWidth - 40) / 2, 20, 40, 40)];
         _voiceButton.layer.cornerRadius = 20.f;
-        [_voiceButton setTitle:@"音视开启" forState:UIControlStateNormal];
-        [_voiceButton setTitle:@"音视中断" forState:UIControlStateSelected];
+        [_voiceButton setTitle:NSLocalizedString(@"call.startAudio", @"Start the audio") forState:UIControlStateNormal];
+        [_voiceButton setTitle:NSLocalizedString(@"call.pauseAudio", @"Pause the audio") forState:UIControlStateSelected];
         [_voiceButton.titleLabel setFont:[UIFont systemFontOfSize:10]];
         [_voiceButton setBackgroundColor:[UIColor grayColor]];
         [_voiceButton addTarget:self action:@selector(voicePauseAction) forControlEvents:UIControlEventTouchUpInside];
@@ -256,19 +255,16 @@
 
 - (void)_initializeVideoView
 {
-    //1.对方窗口
     //1.the other party window
     _callSession.remoteVideoView = [[EMCallRemoteView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
     [self.view addSubview:_callSession.remoteVideoView];
     
-    //2.自己窗口
     //2.Self window
     CGFloat width = 80;
     CGFloat height = self.view.frame.size.height / self.view.frame.size.width * width;
     _callSession.localVideoView = [[EMCallLocalView alloc] initWithFrame:CGRectMake(self.view.frame.size.width - 90, CGRectGetMaxY(_statusLabel.frame), width, height)];
     [self.view addSubview:_callSession.localVideoView];
     
-    //3、属性显示层
     _propertyView = [[UIView alloc] initWithFrame:CGRectMake(10, CGRectGetMinY(_actionView.frame) - 90, self.view.frame.size.width - 20, 90)];
     _propertyView.backgroundColor = [UIColor clearColor];
     _propertyView.hidden = ![self isShowCallInfo];

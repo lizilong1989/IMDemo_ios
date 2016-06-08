@@ -58,11 +58,9 @@
 {
     if (self.conversation.type == EMConversationTypeChatRoom)
     {
-        //退出聊天室，删除会话
         //leave the chatrrom,delete the conversation
         NSString *chatter = [self.conversation.conversationId copy];
         [[EMClient sharedClient].roomManager asyncLeaveChatroom:chatter success:^(EMChatroom *aRoom){
-            //退出成功
             //leave succeed
         } failure:^(EMError *aError) {
             UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error" message:[NSString stringWithFormat:@"Leave chatroom '%@' failed [%@]", chatter, aError.errorDescription] delegate:nil cancelButtonTitle:NSLocalizedString(@"ok", @"ok") otherButtonTitles:nil, nil];
@@ -94,7 +92,6 @@
     UIBarButtonItem *backItem = [[UIBarButtonItem alloc] initWithCustomView:backButton];
     [self.navigationItem setLeftBarButtonItem:backItem];
     
-    //单聊
     //Single Chat
     if (self.conversation.type == EMConversationTypeChat) {
         UIButton *clearButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 44, 44)];
@@ -102,7 +99,7 @@
         [clearButton addTarget:self action:@selector(deleteAllMessages:) forControlEvents:UIControlEventTouchUpInside];
         self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:clearButton];
     }
-    else{//群聊/Group Chat
+    else{//Group Chat
         UIButton *detailButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 60, 44)];
         [detailButton setImage:[UIImage imageNamed:@"group_detail"] forState:UIControlStateNormal];
         [detailButton addTarget:self action:@selector(showGroupDetailAction) forControlEvents:UIControlEventTouchUpInside];
@@ -249,7 +246,6 @@
     [[ChatDemoHelper shareHelper] setChatVC:nil];
     
     if (self.deleteConversationIfNull) {
-        //判断当前会话是否为空，若符合则删除该会话
         //If there is no message in the conversation,and delete the conversation
         EMMessage *message = [self.conversation latestMessage];
         if (message == nil) {
@@ -379,10 +375,8 @@
 {
     id object = notification.object;
     if ([object isKindOfClass:[NSDictionary class]]) {
-        //开始call
         self.isViewDidAppear = NO;
     } else {
-        //结束call
         self.isViewDidAppear = YES;
     }
 }

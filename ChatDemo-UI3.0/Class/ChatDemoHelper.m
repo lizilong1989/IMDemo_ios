@@ -130,7 +130,6 @@ static ChatDemoHelper *helper = nil;
 
 #pragma mark - EMClientDelegate
 
-// 网络状态变化回调
 // Connection to the server status changes will receive the callback
 - (void)didConnectionStateChanged:(EMConnectionState)connectionState
 {
@@ -140,7 +139,7 @@ static ChatDemoHelper *helper = nil;
 - (void)didAutoLoginWithError:(EMError *)error
 {
     if (error) {
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:nil message:@"自动登录失败，请重新登录" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:nil message:NSLocalizedString(@"login.errorAutoLogin", @"Auto-login fails, please try to login again") delegate:self cancelButtonTitle:NSLocalizedString(@"ok", @"ok") otherButtonTitles:nil, nil];
         alertView.tag = 100;
         [alertView show];
     } else if([[EMClient sharedClient] isConnected]){

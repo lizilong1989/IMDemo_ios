@@ -10,7 +10,6 @@
  * from Hyphenate Inc.
  */
 
-//  用来处理UIDemo上Parse相关逻辑
 //  Deal with Parse.framework for IMDemo
 
 #import <Foundation/Foundation.h>
@@ -33,21 +32,18 @@
 - (void)clearParse;
 
 /*
- *  上传个人头像
  *  Upload avatar
  */
 - (void)uploadUserHeadImageProfileInBackground:(UIImage*)image
                                     completion:(void (^)(BOOL success, NSError *error))completion;
 
 /*
- *  上传个人信息
  *  Upload information
  */
 - (void)updateUserProfileInBackground:(NSDictionary*)param
                                     completion:(void (^)(BOOL success, NSError *error))completion;
 
 /*
- *  获取用户信息 by username
  *  Get information by username
  */
 - (void)loadUserProfileInBackground:(NSArray*)usernames
@@ -55,7 +51,6 @@
                          completion:(void (^)(BOOL success, NSError *error))completion;
 
 /*
- *  获取用户信息 by buddy
  *  Get informage by buddyList
  */
 - (void)loadUserProfileInBackgroundWithBuddy:(NSArray*)buddyList
@@ -63,19 +58,16 @@
                                   completion:(void (^)(BOOL success, NSError *error))completion;
 
 /*
- *  获取本地用户信息
  *  Get local information
  */
 - (UserProfileEntity*)getUserProfileByUsername:(NSString*)username;
 
 /*
- *  获取当前用户信息
  *  Get information for current user
  */
 - (UserProfileEntity*)getCurUserProfile;
 
 /*
- *  根据username获取当前用户昵称
  *  Get nickname by username
  */
 - (NSString*)getNickNameWithUsername:(NSString*)username;

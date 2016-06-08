@@ -259,7 +259,7 @@
 - (void)pushDisplayChanged:(UISwitch *)pushDisplaySwitch
 {
     if (pushDisplaySwitch.isOn) {
-#warning 此处设置详情显示时的昵称，比如_nickName = @"环信";/The nickname for the details, for example, _nickName = @"Hyphenate";
+#warning The nickname for the details, for example, _nickName = @"Hyphenate";
         _pushDisplayStyle = EMPushDisplayStyleMessageSummary;
     }
     else{

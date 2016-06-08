@@ -10,7 +10,6 @@
  * from Hyphenate Inc.
  */
 
-//  用来处理UIDemo上的机器人
 
 #import <Foundation/Foundation.h>
 

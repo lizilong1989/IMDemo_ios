@@ -11,7 +11,6 @@
  */
 
 
-//  用来处理UIDemo上的数据，您使用时请自己处理相关部分db
 //  Deal with Data of Invitation for IMDemo
 
 #import <Foundation/Foundation.h>

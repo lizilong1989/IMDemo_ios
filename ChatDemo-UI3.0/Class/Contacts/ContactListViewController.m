@@ -26,7 +26,6 @@
 
 @implementation NSString (search)
 
-//根据用户昵称进行搜索
 //According to nickname for search
 - (NSString*)showName
 {
@@ -66,7 +65,6 @@
     
     self.tableView.frame = CGRectMake(0, self.searchBar.frame.size.height, self.view.frame.size.width, self.view.frame.size.height - self.searchBar.frame.size.height);
     
-    // 环信UIdemo中有用到Parse, 加载用户好友个人信息
     // Hyphenate use Parse.framework,load information for friends
     [[UserProfileManager sharedInstance] loadUserProfileInBackgroundWithBuddy:self.contactsSource saveToLoacal:YES completion:NULL];
 }
@@ -408,7 +406,6 @@
 - (void)cellImageViewLongPressAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.section == 0 && indexPath.row >= 1) {
-        // 群组，聊天室
         // Group, Chatroom
         return;
     }
@@ -440,7 +437,6 @@
     [self.sectionTitles removeAllObjects];
     NSMutableArray *contactsSource = [NSMutableArray array];
     
-    //从获取的数据中剔除黑名单中的好友
     //Load data from Database and eliminate the friend which in black list
     NSArray *blockList = [[EMClient sharedClient].contactManager getBlackListFromDB];
     for (NSString *buddy in buddyList) {
@@ -449,7 +445,6 @@
         }
     }
     
-    //建立索引的核心, 返回27，是a－z和＃
     //Build index, a-z and #
     UILocalizedIndexedCollation *indexCollation = [UILocalizedIndexedCollation currentCollation];
     [self.sectionTitles addObjectsFromArray:[indexCollation sectionTitles]];
@@ -461,7 +456,6 @@
         [sortedArray addObject:sectionArray];
     }
     
-    //按首字母分组
     //Grouped by first letter
     for (NSString *buddy in contactsSource) {
         EaseUserModel *model = [[EaseUserModel alloc] initWithBuddy:buddy];
@@ -477,7 +471,6 @@
         }
     }
     
-    //每个section内的数组排序
     //Every section sort by Letters
     for (int i = 0; i < [sortedArray count]; i++) {
         NSArray *array = [[sortedArray objectAtIndex:i] sortedArrayUsingComparator:^NSComparisonResult(EaseUserModel *obj1, EaseUserModel *obj2) {
@@ -494,7 +487,6 @@
         [sortedArray replaceObjectAtIndex:i withObject:[NSMutableArray arrayWithArray:array]];
     }
     
-    //去掉空的section
     //Delete the empty section
     for (NSInteger i = [sortedArray count] - 1; i >= 0; i--) {
         NSArray *array = [sortedArray objectAtIndex:i];
@@ -513,7 +505,6 @@
 - (void)cellLongPressAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.section == 0 && indexPath.row >= 1) {
-        // 群组，聊天室
         // Group, Chatroom
         return;
     }
@@ -538,7 +529,6 @@
         [self showHudInView:self.view hint:NSLocalizedString(@"wait", @"Pleae wait...")];
         __weak typeof(self) weakself = self;
         [[EMClient sharedClient].contactManager asyncAddUserToBlackList:model.buddy relationshipBoth:YES success:^{
-            //由于加入黑名单成功后会刷新黑名单，所以此处不需要再更改好友列表
             //Because the success of the blacklist will be added to the blacklist, so here do not need to change friends list
             [weakself reloadDataSource];
             [weakself hideHud];

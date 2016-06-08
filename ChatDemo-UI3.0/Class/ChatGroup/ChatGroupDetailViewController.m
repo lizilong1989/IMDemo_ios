@@ -564,7 +564,6 @@
     [self.navigationController pushViewController:selectionController animated:YES];
 }
 
-//清空聊天记录
 //Clear history of chat
 - (void)clearAction
 {
@@ -580,7 +579,6 @@
     
 }
 
-//解散群组
 //Dimiss the group
 - (void)dissolveAction
 {
@@ -595,11 +593,9 @@
     }];
 }
 
-//设置群组
 //Set group
 - (void)configureAction {
     // todo
-    __weak typeof(self) weakSelf = self;
     [[EMClient sharedClient].groupManager asyncIgnoreGroupPush:self.chatGroup.groupId ignore:self.chatGroup.isPushNotificationEnabled success:^{
         
     } failure:^(EMError *aError) {
@@ -607,7 +603,6 @@
     }];
 }
 
-//退出群组
 //Exit group
 - (void)exitAction
 {
@@ -624,7 +619,6 @@
 
 - (void)didIgnoreGroupPushNotification:(NSArray *)ignoredGroupList error:(EMError *)error {
     // todo
-    NSLog(@"ignored group list:%@.", ignoredGroupList);
 }
 
 #pragma mark - UIActionSheetDelegate

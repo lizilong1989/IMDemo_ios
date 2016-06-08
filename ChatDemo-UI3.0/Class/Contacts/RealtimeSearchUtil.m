@@ -23,12 +23,10 @@ static RealtimeSearchUtil *defaultUtil = nil;
 @property (copy, nonatomic) RealtimeSearchResultsBlock resultBlock;
 
 /**
- *  当前搜索线程
  *  Current search thread
  */
 @property (strong, nonatomic) NSThread *searchThread;
 /**
- *  搜索线程队列
  *  The search queue
  */
 @property (strong, nonatomic) dispatch_queue_t searchQueue;
@@ -53,12 +51,6 @@ static RealtimeSearchUtil *defaultUtil = nil;
 }
 
 /*!
- *  \~chinese
- *  实时搜索单例实例化
- *
- *  @return 实时搜索单例
- *
- *  \~english
  *  the entity for the search
  *
  *  @return the entity
@@ -79,7 +71,6 @@ static RealtimeSearchUtil *defaultUtil = nil;
 {
     [self.searchThread cancel];
     
-    //开启新线程
     //Start new thread
     self.searchThread = [[NSThread alloc] initWithTarget:self selector:@selector(searchBegin:) object:string];
     [self.searchThread start];
