@@ -109,7 +109,7 @@
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
     if (section == 1) {
-        return NSLocalizedString(@"setting.notDisturb", @"No disturbing");
+        return NSLocalizedString(@"setting.notDisturb", @"Do Not Disturb");
     }
     return nil;
 }
@@ -134,17 +134,17 @@
     else if (indexPath.section == 1)
     {
         if (indexPath.row == 0) {
-            cell.textLabel.text = NSLocalizedString(@"setting.open", @"Open");
+            cell.textLabel.text = NSLocalizedString(@"setting.open", @"On");
             cell.accessoryType = _noDisturbingStatus == EMPushNoDisturbStatusDay ? UITableViewCellAccessoryCheckmark : UITableViewCellAccessoryNone;
         }
         else if (indexPath.row == 1)
         {
-            cell.textLabel.text = NSLocalizedString(@"setting.nightOpen", @"only open at night (22:00 - 7:00)");
+            cell.textLabel.text = NSLocalizedString(@"setting.nightOpen", @"On only from 10pm to 7am.");
             cell.accessoryType = _noDisturbingStatus == EMPushNoDisturbStatusCustom ? UITableViewCellAccessoryCheckmark : UITableViewCellAccessoryNone;
         }
         else if (indexPath.row == 2)
         {
-            cell.textLabel.text = NSLocalizedString(@"setting.close", @"Close");
+            cell.textLabel.text = NSLocalizedString(@"setting.close", @"Off");
             cell.accessoryType = _noDisturbingStatus == EMPushNoDisturbStatusClose ? UITableViewCellAccessoryCheckmark : UITableViewCellAccessoryNone;
         }
     }
@@ -251,7 +251,7 @@
         [[EMClient sharedClient] asyncUpdatePushOptionsToServer:^{
             [weakself.navigationController popViewControllerAnimated:YES];
         } failure:^(EMError *aError) {
-            [weakself showHint:[NSString stringWithFormat:@"%@-error:%@",NSLocalizedString(@"saveFail", @"Save failed"),aError.errorDescription]];
+            [weakself showHint:[NSString stringWithFormat:@"%@-error:%@",NSLocalizedString(@"error.save", @"Fail to save"),aError.errorDescription]];
         }];
     }
 }

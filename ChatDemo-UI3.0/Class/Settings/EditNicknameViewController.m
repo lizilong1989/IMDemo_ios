@@ -11,7 +11,7 @@
  */
 
 #import "EditNicknameViewController.h"
-
+#import "UserProfileManager.h"
 #define kTextFieldWidth 290.0
 #define kTextFieldHeight 40.0
 #define kButtonHeight 40.0
@@ -117,8 +117,25 @@
         //设置推送设置
         //set nickname for apns
         __weak typeof(self) weakself = self;
+        dispatch_block_t successBlock = ^{
+            if (weakself) {
+                EditNicknameViewController *strongSelf = weakself;
+                [[UserProfileManager sharedInstance] updateUserProfileInBackground:@{kPARSE_HXUSER_NICKNAME:strongSelf->_nickTextField.text} completion:^(BOOL success, NSError *error) {
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [strongSelf hideHud];
+                        if (!success) {
+                            [strongSelf showHint:NSLocalizedString(@"setting.saveFailed", "save failed") yOffset:0];
+                        } else {
+                            [strongSelf.navigationController popViewControllerAnimated:YES];
+                        }
+                    });
+                }];
+            }
+        };
+        
+        [self showHudInView:self.view hint:NSLocalizedString(@"save", "Save")];
         [[EMClient sharedClient] asyncSetApnsNickname:_nickTextField.text success:^{
-            [weakself.navigationController popViewControllerAnimated:YES];
+            successBlock();
         } failure:^(EMError *aError) {
             [weakself showHint:aError.description];
         }];

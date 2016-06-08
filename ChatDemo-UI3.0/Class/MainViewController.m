@@ -63,7 +63,7 @@ static NSString *kGroupName = @"GroupName";
     if ([UIDevice currentDevice].systemVersion.floatValue >= 7) {
         self.edgesForExtendedLayout = UIRectEdgeNone;
     }
-    self.title = NSLocalizedString(@"title.conversation", @"Conversations");
+    self.title = NSLocalizedString(@"title.conversation", @"Chats");
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(setupUntreatedApplyCount) name:@"setupUntreatedApplyCount" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(setupUnreadMessageCount) name:@"setupUnreadMessageCount" object:nil];
@@ -98,13 +98,13 @@ static NSString *kGroupName = @"GroupName";
 - (void)tabBar:(UITabBar *)tabBar didSelectItem:(UITabBarItem *)item
 {
     if (item.tag == 0) {
-        self.title = NSLocalizedString(@"title.conversation", @"Conversations");
+        self.title = NSLocalizedString(@"title.conversation", @"Chats");
         self.navigationItem.rightBarButtonItem = nil;
     }else if (item.tag == 1){
-        self.title = NSLocalizedString(@"title.addressbook", @"AddressBook");
+        self.title = NSLocalizedString(@"title.addressbook", @"Contacts");
         self.navigationItem.rightBarButtonItem = _addFriendItem;
     }else if (item.tag == 2){
-        self.title = NSLocalizedString(@"title.setting", @"Setting");
+        self.title = NSLocalizedString(@"title.setting", @"Settings");
         self.navigationItem.rightBarButtonItem = nil;
         [_settingsVC refreshConfig];
     }
@@ -119,29 +119,31 @@ static NSString *kGroupName = @"GroupName";
     
     _chatListVC = [[ConversationListController alloc] initWithNibName:nil bundle:nil];
     [_chatListVC networkChanged:_connectionState];
-    _chatListVC.tabBarItem = [[UITabBarItem alloc] initWithTitle:NSLocalizedString(@"title.conversation", @"Conversations")
+    _chatListVC.tabBarItem = [[UITabBarItem alloc] initWithTitle:NSLocalizedString(@"title.conversation", @"Chats")
                                                            image:nil
                                                              tag:0];
-    [_chatListVC.tabBarItem setFinishedSelectedImage:[UIImage imageNamed:@"tabbar_chatsHL"]
-                         withFinishedUnselectedImage:[UIImage imageNamed:@"tabbar_chats"]];
+    [_chatListVC.tabBarItem setImage:[UIImage imageNamed:@"tabbar_chats"]];
+    [_chatListVC.tabBarItem setSelectedImage:[UIImage imageNamed:@"tabbar_chatsHL"]];
     [self unSelectedTapTabBarItems:_chatListVC.tabBarItem];
     [self selectedTapTabBarItems:_chatListVC.tabBarItem];
     
     _contactsVC = [[ContactListViewController alloc] initWithNibName:nil bundle:nil];
-    _contactsVC.tabBarItem = [[UITabBarItem alloc] initWithTitle:NSLocalizedString(@"title.addressbook", @"AddressBook")
+    _contactsVC.tabBarItem = [[UITabBarItem alloc] initWithTitle:NSLocalizedString(@"title.addressbook", @"Contacts")
                                                            image:nil
                                                              tag:1];
-    [_contactsVC.tabBarItem setFinishedSelectedImage:[UIImage imageNamed:@"tabbar_contactsHL"]
-                         withFinishedUnselectedImage:[UIImage imageNamed:@"tabbar_contacts"]];
+    
+    [_contactsVC.tabBarItem setImage:[UIImage imageNamed:@"tabbar_contacts"]];
+    [_contactsVC.tabBarItem setSelectedImage:[UIImage imageNamed:@"tabbar_contactsHL"]];
     [self unSelectedTapTabBarItems:_contactsVC.tabBarItem];
     [self selectedTapTabBarItems:_contactsVC.tabBarItem];
     
     _settingsVC = [[SettingsViewController alloc] init];
-    _settingsVC.tabBarItem = [[UITabBarItem alloc] initWithTitle:NSLocalizedString(@"title.setting", @"Setting")
+    _settingsVC.tabBarItem = [[UITabBarItem alloc] initWithTitle:NSLocalizedString(@"title.setting", @"Settings")
                                                            image:nil
                                                              tag:2];
-    [_settingsVC.tabBarItem setFinishedSelectedImage:[UIImage imageNamed:@"tabbar_settingHL"]
-                         withFinishedUnselectedImage:[UIImage imageNamed:@"tabbar_setting"]];
+    
+    [_settingsVC.tabBarItem setImage:[UIImage imageNamed:@"tabbar_setting"]];
+    [_settingsVC.tabBarItem setSelectedImage:[UIImage imageNamed:@"tabbar_settingHL"]];
     _settingsVC.view.autoresizingMask = UIViewAutoresizingFlexibleHeight;
     [self unSelectedTapTabBarItems:_settingsVC.tabBarItem];
     [self selectedTapTabBarItems:_settingsVC.tabBarItem];
