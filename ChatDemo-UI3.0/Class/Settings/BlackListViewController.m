@@ -72,7 +72,7 @@
     _slimeView.slime.shadowColor = [UIColor grayColor];
     [self.tableView addSubview:_slimeView];
     
-    [self.slimeView setLoadingWithexpansion];
+    [self reloadDataSource];
 }
 
 - (void)didReceiveMemoryWarning
@@ -260,12 +260,16 @@
 
 - (void)reloadDataSource
 {
+    [self hideHud];
+    [self showHudInView:self.view hint:NSLocalizedString(@"loadData", @"Load data...")];
     __weak typeof(self) weakself = self;
     [[EMClient sharedClient].contactManager asyncGetBlackListFromServer:^(NSArray *aList) {
+        [weakself hideHud];
         [weakself.dataSource removeAllObjects];
         [weakself.dataSource addObjectsFromArray:[weakself sortDataArray:aList]];
         [weakself.tableView reloadData];
     } failure:^(EMError *aError) {
+        [weakself hideHud];
     }];
 }
 
